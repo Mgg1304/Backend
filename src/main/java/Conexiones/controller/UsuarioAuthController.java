@@ -12,26 +12,19 @@ import Conexiones.service.UsuarioService;
 @RequestMapping("/api/usuarios")
 public class UsuarioAuthController {
 
-    private final UsuarioService usuarioService;
+	private final UsuarioService usuarioService;
 
-    public UsuarioAuthController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
-    }
+	public UsuarioAuthController(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
 
-    @PostMapping("/register")
-    public Usuario register(
-            @RequestParam String nombre,
-            @RequestParam String usuario,
-            @RequestParam String password
-    ) {
-        return usuarioService.registrar(nombre, usuario, password);
-    }
+	@PostMapping("/register")
+	public Usuario register(@RequestParam String nombre, @RequestParam String usuario, @RequestParam String password) {
+		return usuarioService.registrar(nombre, usuario, password);
+	}
 
-    @PostMapping("/login")
-    public Usuario login(
-            @RequestParam String usuario,
-            @RequestParam String password
-    ) {
-        return usuarioService.login(usuario, password);
-    }
+	@PostMapping("/login")
+	public Usuario login(@RequestParam String usuario, @RequestParam String password) {
+		return usuarioService.login(usuario, password);
+	}
 }

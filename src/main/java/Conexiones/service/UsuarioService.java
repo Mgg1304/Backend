@@ -3,6 +3,7 @@ package Conexiones.service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import Conexiones.dto.ChangePasswordRequest;
 import Conexiones.model.Usuario;
 import Conexiones.repository.UsuarioRepository;
 
@@ -42,5 +43,19 @@ public class UsuarioService {
 
         return usuarioDb;
     }
+    
+    public void changePassword(ChangePasswordRequest request) {
+
+        Usuario usuario = usuarioRepository.findByUsuario(request.getUser())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (!encoder.matches(request.getOldPassword(), usuario.getContrasenya())) {
+            throw new RuntimeException("La contraseña actual es incorrecta");
+        }
+
+        usuario.setContrasenya(encoder.encode(request.getNewPassword()));
+        usuarioRepository.save(usuario);
+    }
+
 }
 

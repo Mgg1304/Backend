@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import Conexiones.model.EstadoReserva;
 import Conexiones.model.Reserva;
 import Conexiones.repository.ReservaRepository;
 
@@ -21,7 +22,7 @@ public class ReservaService {
 
 	public Reserva crearReserva(Reserva reserva) {
 		validarFechas(reserva.getFechaInicio(), reserva.getFechaFin());
-		reserva.setEstado("PENDIENTE");
+		reserva.setEstado(EstadoReserva.PENDIENTE);
 		return reservaRepository.save(reserva);
 	}
 
@@ -54,7 +55,7 @@ public class ReservaService {
 		return reservaRepository.findAll();
 	}
 
-	public Reserva cambiarEstado(Long id, String estado) {
+	public Reserva cambiarEstado(Long id, EstadoReserva estado) {
 		Reserva reserva = reservaRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
 

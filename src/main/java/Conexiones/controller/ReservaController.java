@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import Conexiones.model.EstadoReserva;
 import Conexiones.model.Reserva;
 import Conexiones.service.ReservaService;
 
@@ -35,7 +36,7 @@ public class ReservaController {
 	}
 
 	@PutMapping("/{id}/estado")
-	public Reserva cambiarEstado(@PathVariable Long id, @RequestParam String estado) {
+	public Reserva cambiarEstado(@PathVariable Long id, @RequestParam EstadoReserva estado) {
 		return reservaService.cambiarEstado(id, estado);
 	}
 }

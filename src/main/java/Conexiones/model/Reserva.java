@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +25,8 @@ public class Reserva {
 	private LocalDate fechaInicio;
 	private LocalDate fechaFin;
 
-	private String estado; // PENDIENTE, CONFIRMADA, FINALIZADA, CANCELADA
+	@Enumerated(EnumType.STRING)
+	private EstadoReserva estado;
 
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
@@ -36,7 +39,7 @@ public class Reserva {
 	public Reserva() {
 	}
 
-	public Reserva(Long id, LocalDate fechaInicio, LocalDate fechaFin, String estado, Usuario usuario,
+	public Reserva(Long id, LocalDate fechaInicio, LocalDate fechaFin, EstadoReserva estado, Usuario usuario,
 			Producto producto) {
 		this.id = id;
 		this.fechaInicio = fechaInicio;
@@ -70,11 +73,11 @@ public class Reserva {
 		this.fechaFin = fechaFin;
 	}
 
-	public String getEstado() {
+	public EstadoReserva getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(EstadoReserva estado) {
 		this.estado = estado;
 	}
 
