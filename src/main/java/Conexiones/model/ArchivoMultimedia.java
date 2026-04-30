@@ -15,38 +15,43 @@ public class ArchivoMultimedia {
 	@JoinColumn(name = "id_producto")
 	private Producto producto;
 
-	private String ruta_archivo;
+	@Column(name = "ruta_archivo")
+	private String Url;
 
 	private String tipo; // "IMAGEN" o "VIDEO"
 
 	public ArchivoMultimedia() {
 	}
 
-	public ArchivoMultimedia(Producto producto, String ruta_archivo, String tipo) {
+	public ArchivoMultimedia( Producto producto, String Url, String tipo) {
+		super();
 		this.producto = producto;
-		this.ruta_archivo = ruta_archivo;
+		this.Url = Url;
 		this.tipo = tipo;
 	}
 
-	// Getters y setters
 	public Long getId() {
 		return id;
 	}
 
-	public Producto getId_producto() {
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Producto getProducto() {
 		return producto;
 	}
 
-	public void setId_producto(Producto producto) {
+	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
 
-	public String getRuta_archivo() {
-		return ruta_archivo;
+	public String getUrl() {
+		return Url;
 	}
 
-	public void setRuta_archivo(String ruta_archivo) {
-		this.ruta_archivo = ruta_archivo;
+	public void setUrl(String Url) {
+		this.Url = Url;
 	}
 
 	public String getTipo() {
@@ -56,4 +61,6 @@ public class ArchivoMultimedia {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+
+	
 }

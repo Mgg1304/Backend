@@ -3,14 +3,17 @@ package Conexiones.controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import Conexiones.model.Notificacion;
 import Conexiones.service.NotificacionService;
 
 @RestController
-@RequestMapping("/notificaciones")
+@RequestMapping("/renthub/notificaciones")
 @CrossOrigin
 public class NotificacionController {
+	
+	private static final Logger log = Logger.getLogger(NotificacionController.class.getName());
 
 	private final NotificacionService notificacionService;
 
@@ -19,7 +22,7 @@ public class NotificacionController {
 		this.notificacionService = notificacionService;
 	}
 
-	@PostMapping
+	@PostMapping("/crear")
 	public Notificacion crear(@RequestBody Notificacion notificacion) {
 		return notificacionService.crear(notificacion);
 	}

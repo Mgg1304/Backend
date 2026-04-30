@@ -2,19 +2,19 @@ package Conexiones.dto;
 
 public class ChangePasswordRequest {
 
-	private String user;
+	private String usuario;
 	private String oldPassword;
 	private String newPassword;
 
 	public ChangePasswordRequest() {
 	}
 
-	public String getUser() {
-		return user;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getOldPassword() {

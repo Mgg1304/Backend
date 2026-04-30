@@ -22,7 +22,9 @@ public class Producto {
 
 	private int stock;
 
-	private Long id_admin;
+	@Column(name = "id_admin")
+	private Long adminId;
+	
 
 	public Producto() {
 	}
@@ -33,7 +35,7 @@ public class Producto {
 		this.categoria = categoria;
 		this.precioDia = precioDia;
 		this.stock = stock;
-		this.id_admin = id_admin;
+		this.adminId = id_admin;
 	}
 
 	// Getters y setters
@@ -81,11 +83,20 @@ public class Producto {
 		this.stock = stock;
 	}
 
-	public Long getId_Admin() {
-		return id_admin;
+	public Long getAdminId() {
+		return adminId;
 	}
 
-	public void setId_Admin(Long id_admin) {
-		this.id_admin = id_admin;
+	public void setAdminId(Long adminId) {
+		this.adminId = adminId;
+	}
+	
+	@Override
+	public String toString() {
+	    return "Producto{" +
+	            "id=" + id +
+	            ", nombre='" + nombre + '\'' +
+	            ", precioPorDia=" + precioDia +
+	            '}';
 	}
 }

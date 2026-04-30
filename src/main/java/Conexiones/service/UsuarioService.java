@@ -46,7 +46,7 @@ public class UsuarioService {
     
     public void changePassword(ChangePasswordRequest request) {
 
-        Usuario usuario = usuarioRepository.findByUsuario(request.getUser())
+        Usuario usuario = usuarioRepository.findByUsuario(request.getUsuario())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         if (!encoder.matches(request.getOldPassword(), usuario.getContrasenya())) {

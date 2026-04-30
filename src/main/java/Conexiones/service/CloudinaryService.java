@@ -1,7 +1,9 @@
 package Conexiones.service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +22,8 @@ public class CloudinaryService {
 	private final Cloudinary cloudinary;
 	private final ProductoRepository productoRepository;
 	private final ArchivoMultimediaRepository archivoRepository;
+	
+	private static final Logger log = Logger.getLogger(CloudinaryService.class.getName());
 
 	public CloudinaryService(Cloudinary cloudinary, ProductoRepository productoRepository,
 			ArchivoMultimediaRepository archivoRepository) {
@@ -32,11 +36,11 @@ public class CloudinaryService {
 	public Producto crearProductoConMultimedia(MultipartFile[] files, String nombre, String descripcion,
 			String categoria, double precioDia, int stock, Long adminId) throws IOException {
 
+		log.info("Creando producto con multimedia. Nombre: " + nombre + ", Descripción: " + descripcion + ", Categoría: " + categoria + ", Precio por día: " + precioDia + ", Stock: " + stock + ", Admin ID: " + adminId);
 		
 		Producto producto = new Producto(nombre, descripcion, categoria, precioDia, stock, adminId);
 		producto = productoRepository.save(producto);
 
-		 
 		for (MultipartFile file : files) {
 
 			Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
@@ -52,5 +56,18 @@ public class CloudinaryService {
 
 		return producto;
 	}
+	
+	public List<Producto> obtenerProductosPorAdmin(Long adminId) {
+		List<Producto> productos = productoRepository.findByAdminId(adminId);
+
+		log.info("Obtenidos " + productos.size() + " productos para admin ID: " + adminId);
+		log.info("Productos: " + productos.toString());
+		
+		return productos;
+	}
+
+	
+	
+	
 
 }

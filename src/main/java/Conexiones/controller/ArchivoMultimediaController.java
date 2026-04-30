@@ -2,43 +2,50 @@ package Conexiones.controller;
 
 import Conexiones.model.ArchivoMultimedia;
 import Conexiones.repository.ArchivoMultimediaRepository;
+import Conexiones.service.ArchivoMultimediaService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/archivos")
+@RequestMapping("/renthub/archivos")
 @CrossOrigin(origins = "*")
 public class ArchivoMultimediaController {
 
-    private final ArchivoMultimediaRepository archivoRepository;
+	private static final Logger log = Logger.getLogger(ArchivoMultimediaController.class.getName());
 
-    public ArchivoMultimediaController(ArchivoMultimediaRepository archivoRepository) {
-        this.archivoRepository = archivoRepository;
+	private final ArchivoMultimediaRepository archivoRepository;
+	
+	@Autowired
+    private ArchivoMultimediaService service;
+
+	public ArchivoMultimediaController(ArchivoMultimediaRepository archivoRepository) {
+		this.archivoRepository = archivoRepository;
+	}
+
+	// Obtener por producto
+	@GetMapping("/producto/{id}")
+	public ResponseEntity<List<String>> obtenerUrls(@PathVariable Long id) {
+		log.info("Recibida solicitud de obtención de URLs de archivos multimedia para producto ID: " + id);
+        return ResponseEntity.ok(service.obtenerUrlsPorProducto(id));
     }
 
-    // Obtener todos
-    @GetMapping
-    public List<ArchivoMultimedia> getAllArchivos() {
-        return archivoRepository.findAll();
-    }
+	// Crear archivo multimedia
+	@PostMapping("/crear")
+	public ArchivoMultimedia crearArchivo(@RequestBody ArchivoMultimedia archivo) {
+		log.info("Recibida solicitud de creación de archivo multimedia. URL: " + archivo.getUrl() + ", Tipo: "
+				+ archivo.getTipo() + ", Producto ID: " + archivo.getId());
+		return archivoRepository.save(archivo);
+	}
 
-    // Obtener por producto
-    @GetMapping("/producto/{idProducto}")
-    public List<ArchivoMultimedia> getByProducto(@PathVariable Long productoId) {
-        return archivoRepository.findByProductoId(productoId);
-    }
-
-    // Crear archivo multimedia
-    @PostMapping
-    public ArchivoMultimedia crearArchivo(@RequestBody ArchivoMultimedia archivo) {
-        return archivoRepository.save(archivo);
-    }
-
-    // Eliminar archivo
-    @DeleteMapping("/{id}")
-    public void eliminarArchivo(@PathVariable Long id) {
-        archivoRepository.deleteById(id);
-    }
+	// Eliminar archivo
+	@DeleteMapping("/eliminar")
+	public void eliminarArchivo(@PathVariable Long id) {
+		log.info("Recibida solicitud de eliminación de archivo multimedia. ID: " + id);
+		archivoRepository.deleteById(id);
+	}
 }
-

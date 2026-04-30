@@ -9,7 +9,7 @@ import Conexiones.model.Usuario;
 import Conexiones.service.UsuarioService;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/renthub/usuarios")
 public class UsuarioAuthController {
 
 	private final UsuarioService usuarioService;
