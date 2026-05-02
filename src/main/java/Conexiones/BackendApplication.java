@@ -10,7 +10,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class BackendApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BackendApplication.class, args);
+    	String port = System.getenv("PORT");
+        if (port != null) {
+            System.setProperty("server.port", port);
+        }
+    	SpringApplication.run(BackendApplication.class, args);
     }
 }
 
