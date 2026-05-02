@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/*jar
+web: mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=$PORT
