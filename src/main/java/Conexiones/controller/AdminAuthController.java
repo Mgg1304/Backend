@@ -31,17 +31,17 @@ public class AdminAuthController {
 	@PostMapping("/register")
 	public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
 		
-		log.info("Recibida solicitud de registro. Usuario: " + request.getUsuario() + ", Nombre: " + request.getNombre() + ", Contraseña: " + request.getPassword());
+		log.info("Recibida solicitud de registro de administrador. Usuario: " + request.getUsuario() + ", Nombre: " + request.getNombre() + ", Contraseña: " + request.getPassword());
 
 		adminService.registrar(request);
 
-		return ResponseEntity.ok("Usuario creado correctamente");
+		return ResponseEntity.ok("Administrador creado correctamente");
 	}
 
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
 		
-		log.info("Recibida solicitud de login. Usuario: " + request.getUsuario() + ", Contraseña: " + request.getPassword());
+		log.info("Recibida solicitud de login de administrador. Usuario: " + request.getUsuario() + ", Contraseña: " + request.getPassword());
 
 		Admin admin = adminService.login(request.getUsuario(), request.getPassword());
 
@@ -53,7 +53,7 @@ public class AdminAuthController {
 	@PutMapping("/change-password")
 	public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
 		
-		log.info("Recibida solicitud de cambio de contraseña. Usuario: " + request.getUsuario() + ", Contraseña actual: " + request.getOldPassword() + ", Nueva contraseña: " + request.getNewPassword());
+		log.info("Recibida solicitud de cambio de contraseña de administrador. Usuario: " + request.getUsuario() + ", Contraseña actual: " + request.getOldPassword() + ", Nueva contraseña: " + request.getNewPassword());
 
 		adminService.changePassword(request);
 

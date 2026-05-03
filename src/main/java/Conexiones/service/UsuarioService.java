@@ -1,61 +1,75 @@
 package Conexiones.service;
 
+import java.util.logging.Logger;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import Conexiones.controller.UsuarioAuthController;
 import Conexiones.dto.ChangePasswordRequest;
+import Conexiones.dto.RegisterRequest;
 import Conexiones.model.Usuario;
 import Conexiones.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
 
-    private final UsuarioRepository usuarioRepository;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	private static final Logger log = Logger.getLogger(UsuarioAuthController.class.getName());
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
+	private final UsuarioRepository usuarioRepository;
+	private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public Usuario registrar(String nombre, String usuario, String password) {
+	public UsuarioService(UsuarioRepository usuarioRepository) {
+		this.usuarioRepository = usuarioRepository;
+	}
 
-        if (usuarioRepository.findByUsuario(usuario).isPresent()) {
-            throw new RuntimeException("Usuario ya existente");
-        }
+	// 🔹 REGISTER
+	public void registrar(RegisterRequest request) {
 
-        Usuario nuevo = new Usuario(
-                nombre,
-                usuario,
-                encoder.encode(password)
-        );
+		if (usuarioRepository.findByUsuario(request.getUsuario()).isPresent()) {
+			throw new RuntimeException("El usuario ya está registrado");
+		}
 
-        return usuarioRepository.save(nuevo);
-    }
+		log.info("Registrando nuevo usuario. Usuario: " + request.getUsuario() +
+				 ", Nombre: " + request.getNombre());
 
-    public Usuario login(String usuario, String password) {
+		Usuario usuario = new Usuario();
+		usuario.setNombre(request.getNombre());
+		usuario.setUsuario(request.getUsuario());
+		usuario.setContrasenya(encoder.encode(request.getPassword()));
 
-        Usuario usuarioDb = usuarioRepository.findByUsuario(usuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+		usuarioRepository.save(usuario);
+	}
 
-        if (!encoder.matches(password, usuarioDb.getContrasenya())) {
-            throw new RuntimeException("Contraseña incorrecta");
-        }
+	// 🔹 LOGIN
+	public Usuario login(String usuario, String password) {
 
-        return usuarioDb;
-    }
-    
-    public void changePassword(ChangePasswordRequest request) {
+		Usuario usuarioDb = usuarioRepository.findByUsuario(usuario)
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        Usuario usuario = usuarioRepository.findByUsuario(request.getUsuario())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+		if (!encoder.matches(password, usuarioDb.getContrasenya())) {
+			throw new RuntimeException("Contraseña incorrecta");
+		}
 
-        if (!encoder.matches(request.getOldPassword(), usuario.getContrasenya())) {
-            throw new RuntimeException("La contraseña actual es incorrecta");
-        }
+		log.info("Usuario autenticado correctamente. Usuario: " + usuarioDb.getUsuario() +
+				 ", Nombre: " + usuarioDb.getNombre());
 
-        usuario.setContrasenya(encoder.encode(request.getNewPassword()));
-        usuarioRepository.save(usuario);
-    }
+		return usuarioDb;
+	}
 
+	// 🔹 CHANGE PASSWORD
+	public void changePassword(ChangePasswordRequest request) {
+
+		log.info("Intentando cambiar contraseña para usuario: " + request.getUsuario());
+
+		Usuario usuario = usuarioRepository.findByUsuario(request.getUsuario())
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+		if (!encoder.matches(request.getOldPassword(), usuario.getContrasenya())) {
+			throw new RuntimeException("La contraseña actual es incorrecta");
+		}
+
+		usuario.setContrasenya(encoder.encode(request.getNewPassword()));
+		usuarioRepository.save(usuario);
+	}
 }
-
