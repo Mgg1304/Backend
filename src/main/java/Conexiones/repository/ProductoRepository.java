@@ -7,4 +7,7 @@ import Conexiones.model.Producto;
 
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
 	List<Producto> findByAdminId(Long adminId);
+	
+	List<Producto> findAll();
+	
 }

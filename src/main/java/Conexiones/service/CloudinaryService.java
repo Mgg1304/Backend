@@ -66,6 +66,13 @@ public class CloudinaryService {
 		return productos;
 	}
 
+	public List<Producto> obtenerTodosLosProductos() {
+		List<Producto> productos = productoRepository.findAll();
+		
+		log.info("Obtenidos " + productos.size() + " productos en total.");
+		return productos;
+	}
+
 	
 	
 	

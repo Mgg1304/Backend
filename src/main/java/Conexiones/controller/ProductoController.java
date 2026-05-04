@@ -57,4 +57,14 @@ public class ProductoController {
         return ResponseEntity.ok(productos);
     }
     
+    @GetMapping("/renthub/productos")
+    public ResponseEntity<List<Producto>> obtenerTodosLosProductos() {
+
+		log.info("Recibida solicitud de todos los productos.");
+		
+		List<Producto> productos = cloudinaryService.obtenerTodosLosProductos();
+
+		return ResponseEntity.ok(productos);
+	}
+    
 }
