@@ -25,7 +25,7 @@ public class ReservaController {
 
 	@PostMapping("/crear")
 	public Reserva crear(@RequestBody Reserva reserva) {
-		log.info("Recibida solicitud de creación de reserva. Usuario ID: " + reserva.getUsuario().getNombre() + ", Producto ID: " + reserva.getProducto().getNombre() + ", Fecha inicio: " + reserva.getFechaInicio() + ", Fecha fin: " + reserva.getFechaFin());
+		log.info("Recibida solicitud de creación de reserva. Usuario ID: " + reserva.getUsuario() + ", Producto ID: " + reserva.getProducto() + ", Fecha inicio: " + reserva.getFechaInicio() + ", Fecha fin: " + reserva.getFechaFin());
 		return reservaService.crearReserva(reserva);
 	}
 
