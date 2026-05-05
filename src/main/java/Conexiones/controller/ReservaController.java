@@ -1,12 +1,19 @@
 package Conexiones.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.logging.Logger;
 
+import Conexiones.dto.ReservaRequest;
 import Conexiones.model.EstadoReserva;
+import Conexiones.model.Producto;
 import Conexiones.model.Reserva;
+import Conexiones.model.Usuario;
+import Conexiones.repository.ProductoRepository;
+import Conexiones.repository.ReservaRepository;
+import Conexiones.repository.UsuarioRepository;
 import Conexiones.service.ReservaService;
 
 @RestController
@@ -17,6 +24,14 @@ public class ReservaController {
 	private static final Logger log = Logger.getLogger(ReservaController.class.getName());
 
 	private final ReservaService reservaService;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private ProductoRepository productoRepository;
+
+	@Autowired
+	private ReservaRepository reservaRepository;
 
 	public ReservaController(ReservaService reservaService) {
 		super();
@@ -24,9 +39,21 @@ public class ReservaController {
 	}
 
 	@PostMapping("/crear")
-	public Reserva crear(@RequestBody Reserva reserva) {
-		log.info("Recibida solicitud de creación de reserva. Usuario ID: " + reserva.getUsuario() + ", Producto ID: " + reserva.getProducto() + ", Fecha inicio: " + reserva.getFechaInicio() + ", Fecha fin: " + reserva.getFechaFin());
-		return reservaService.crearReserva(reserva);
+	public Reserva crear(@RequestBody ReservaRequest request) {
+
+	    Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+	        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+	    Producto producto = productoRepository.findById(request.getProductoId())
+	        .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+	    Reserva reserva = new Reserva();
+	    reserva.setUsuario(usuario);
+	    reserva.setProducto(producto);
+	    reserva.setFechaInicio(request.getFechaInicio());
+	    reserva.setFechaFin(request.getFechaFin());
+
+	    return reservaRepository.save(reserva);
 	}
 
 	@GetMapping("/usuario/{id}")
