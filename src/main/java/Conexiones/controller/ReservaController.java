@@ -20,18 +20,17 @@ import Conexiones.service.ReservaService;
 @RequestMapping("/renthub/reservas")
 @CrossOrigin
 public class ReservaController {
-	
+
 	private static final Logger log = Logger.getLogger(ReservaController.class.getName());
 
+	@Autowired
 	private final ReservaService reservaService;
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
 	@Autowired
 	private ProductoRepository productoRepository;
-
-	@Autowired
-	private ReservaRepository reservaRepository;
 
 	public ReservaController(ReservaService reservaService) {
 		super();
@@ -41,19 +40,19 @@ public class ReservaController {
 	@PostMapping("/crear")
 	public Reserva crear(@RequestBody ReservaRequest request) {
 
-	    Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
-	        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+		Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-	    Producto producto = productoRepository.findById(request.getProductoId())
-	        .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+		Producto producto = productoRepository.findById(request.getProductoId())
+				.orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-	    Reserva reserva = new Reserva();
-	    reserva.setUsuario(usuario);
-	    reserva.setProducto(producto);
-	    reserva.setFechaInicio(request.getFechaInicio());
-	    reserva.setFechaFin(request.getFechaFin());
+		Reserva reserva = new Reserva();
+		reserva.setUsuario(usuario);
+		reserva.setProducto(producto);
+		reserva.setFechaInicio(request.getFechaInicio());
+		reserva.setFechaFin(request.getFechaFin());
 
-	    return reservaRepository.save(reserva);
+		return reservaService.crearReserva(reserva);
 	}
 
 	@GetMapping("/usuario/{id}")
