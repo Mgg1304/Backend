@@ -1,5 +1,6 @@
 package Conexiones.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,7 +14,8 @@ import Conexiones.repository.ReservaRepository;
 @Service
 public class ReservaService {
 
-	private final ReservaRepository reservaRepository;
+	@Autowired
+	private ReservaRepository reservaRepository;
 
 	public ReservaService(ReservaRepository reservaRepository) {
 		super();
@@ -62,4 +64,8 @@ public class ReservaService {
 		reserva.setEstado(estado);
 		return reservaRepository.save(reserva);
 	}
+	
+	public List<Reserva> obtenerReservasAdmin(Long adminId) {
+        return reservaRepository.obtenerReservasPorAdmin(adminId);
+    }
 }

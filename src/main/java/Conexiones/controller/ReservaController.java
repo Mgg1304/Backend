@@ -1,6 +1,7 @@
 package Conexiones.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +13,6 @@ import Conexiones.model.Producto;
 import Conexiones.model.Reserva;
 import Conexiones.model.Usuario;
 import Conexiones.repository.ProductoRepository;
-import Conexiones.repository.ReservaRepository;
 import Conexiones.repository.UsuarioRepository;
 import Conexiones.service.ReservaService;
 
@@ -24,7 +24,7 @@ public class ReservaController {
 	private static final Logger log = Logger.getLogger(ReservaController.class.getName());
 
 	@Autowired
-	private final ReservaService reservaService;
+	private ReservaService reservaService;
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
@@ -65,5 +65,13 @@ public class ReservaController {
 	public Reserva cambiarEstado(@PathVariable Long id, @RequestParam EstadoReserva estado) {
 		log.info("Recibida solicitud de cambio de estado de reserva ID: " + id + " a estado: " + estado);
 		return reservaService.cambiarEstado(id, estado);
+	}
+
+	@GetMapping("/admin/{adminId}")
+	public ResponseEntity<List<Reserva>> obtenerReservasAdmin(@PathVariable Long adminId) {
+
+		List<Reserva> reservas = reservaService.obtenerReservasAdmin(adminId);
+		log.info("Reservas obtenidas para admin ID: " + adminId + ". Cantidad: " + (reservas != null ? reservas.size() : "null"));
+		return ResponseEntity.ok(reservas);
 	}
 }

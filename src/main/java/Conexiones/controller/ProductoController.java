@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import Conexiones.model.Producto;
+import Conexiones.repository.ProductoRepository;
 import Conexiones.service.CloudinaryService;
 
 
@@ -20,6 +22,9 @@ import Conexiones.service.CloudinaryService;
 public class ProductoController {
 
     private final CloudinaryService cloudinaryService;
+    
+    @Autowired
+    private ProductoRepository productoRepository;
     
     private static final Logger log = Logger.getLogger(AdminAuthController.class.getName());
 
@@ -66,5 +71,10 @@ public class ProductoController {
 
 		return ResponseEntity.ok(productos);
 	}
+    
+    @GetMapping("/{id}")
+    public Producto obtenerProducto(@PathVariable Long id) {
+        return productoRepository.findById(id).orElse(null);
+    }
     
 }
