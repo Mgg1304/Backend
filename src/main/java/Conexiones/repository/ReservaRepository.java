@@ -20,7 +20,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 	        SELECT r
 	        FROM Reserva r
 	        JOIN FETCH r.producto p
-	        WHERE p.admin.id = :adminId
+	        WHERE p.adminId = :adminId
 	    """)
 	    List<Reserva> obtenerReservasPorAdmin(@Param("adminId") Long adminId);
 }
