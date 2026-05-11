@@ -68,4 +68,8 @@ public class ReservaService {
 	public List<Reserva> obtenerReservasAdmin(Long adminId) {
         return reservaRepository.obtenerReservasPorAdmin(adminId);
     }
+	
+	public void actualizarReservasEnCurso() {
+        reservaRepository.actualizarReservasEnCurso();
+    }
 }
