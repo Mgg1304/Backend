@@ -24,6 +24,15 @@ public class Producto {
 
 	@Column(name = "id_admin")
 	private Long adminId;
+
+	@Column(name = "rating_count", nullable = false)
+	private int ratingCount;
+
+	@Column(name = "rating_sum", nullable = false)
+	private double ratingSum;
+
+	@Column(name = "rating_avg", nullable = false)
+	private double ratingAvg;
 	
 
 	public Producto() {
@@ -90,6 +99,30 @@ public class Producto {
 	public void setAdminId(Long adminId) {
 		this.adminId = adminId;
 	}
+
+	public int getRatingCount() {
+		return ratingCount;
+	}
+
+	public void setRatingCount(int ratingCount) {
+		this.ratingCount = ratingCount;
+	}
+
+	public double getRatingSum() {
+		return ratingSum;
+	}
+
+	public void setRatingSum(double ratingSum) {
+		this.ratingSum = ratingSum;
+	}
+
+	public double getRatingAvg() {
+		return ratingAvg;
+	}
+
+	public void setRatingAvg(double ratingAvg) {
+		this.ratingAvg = ratingAvg;
+	}
 	
 	@Override
 	public String toString() {
@@ -97,6 +130,7 @@ public class Producto {
 	            "id=" + id +
 	            ", nombre='" + nombre + '\'' +
 	            ", precioPorDia=" + precioDia +
+	            ", ratingAvg=" + ratingAvg +
 	            '}';
 	}
 }

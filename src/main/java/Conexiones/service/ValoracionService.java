@@ -2,6 +2,7 @@ package Conexiones.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class ValoracionService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	@Transactional
 	public Valoracion crear(ValoracionDTO request) {
 
 		Usuario usuario = usuarioRepository.findById(request.getIdUsuario())
@@ -36,8 +38,15 @@ public class ValoracionService {
         valoracion.setEstrellas(request.getEstrellas());
         valoracion.setUsuario(usuario);
         valoracion.setProducto(producto);
-		
-        return valoracionRepository.save(valoracion);
+
+        Valoracion valoracionGuardada = valoracionRepository.save(valoracion);
+        int filasActualizadas = productoRepository.actualizarRatingProducto(producto.getIdProducto(), request.getEstrellas());
+
+        if (filasActualizadas == 0) {
+			throw new RuntimeException("No se pudo actualizar la valoración media del producto");
+		}
+
+        return valoracionGuardada;
     }
 
 	public List<Valoracion> obtenerPorProducto(Long productoId) {

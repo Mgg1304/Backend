@@ -20,6 +20,9 @@ CREATE TABLE IF NOT EXISTS productos(
     nombre VARCHAR(50),
     id_admin BIGINT,
     descripcion VARCHAR(200),
+    rating_count INT NOT NULL DEFAULT 0,
+    rating_sum DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    rating_avg DECIMAL(4, 2) NOT NULL DEFAULT 0,
     FOREIGN KEY (id_admin) REFERENCES administradores(id_admin)
 );
 
