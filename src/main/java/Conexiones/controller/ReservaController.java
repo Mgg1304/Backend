@@ -55,17 +55,33 @@ public class ReservaController {
 		return reservaService.crearReserva(reserva);
 	}
 
+	@PutMapping("/confirmar/{id}")
+	public Reserva cambiarEstado(@PathVariable Long id) {
+		log.info("Recibida solicitud de cambio de estado de reserva ID: " + id + " a estado: "
+				+ EstadoReserva.CONFIRMADA);
+		return reservaService.confirmarReserva(id);
+	}
+
+	@PutMapping("/cancelar/{id}")
+	public Reserva cancelarReserva(@PathVariable Long id) {
+		log.info("Recibida solicitud de cambio de estado de reserva ID: " + id + " a estado: "
+				+ EstadoReserva.CANCELADA);
+		return reservaService.cancelarReserva(id);
+	}
+	
+	@PutMapping("/finalizar/{id}")
+	public Reserva finalizarReserva(@PathVariable Long id) {
+		log.info("Recibida solicitud de cambio de estado de reserva ID: " + id + " a estado: "
+				+ EstadoReserva.FINALIZADA);
+		return reservaService.finalizarReserva(id);
+	}
+
 	@GetMapping("/usuario/{id}")
 	public List<Reserva> porUsuario(@PathVariable Long id) {
 		log.info("Recibida solicitud de obtención de reservas para usuario ID: " + id);
 		return reservaService.obtenerReservasUsuario(id);
 	}
 
-	@PutMapping("/confirmar/{id}")
-	public Reserva cambiarEstado(@PathVariable Long id) {
-		log.info("Recibida solicitud de cambio de estado de reserva ID: " + id + " a estado: " + EstadoReserva.CONFIRMADA);
-		return reservaService.confirmarReserva(id);
-	}
 
 	@GetMapping("/admin/{adminId}")
 	public ResponseEntity<List<Reserva>> obtenerReservasAdmin(@PathVariable Long adminId) {

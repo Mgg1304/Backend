@@ -22,11 +22,6 @@ public class ReservaService {
 		this.reservaRepository = reservaRepository;
 	}
 
-	public Reserva crearReserva(Reserva reserva) {
-		validarFechas(reserva.getFechaInicio(), reserva.getFechaFin());
-		reserva.setEstado(EstadoReserva.PENDIENTE);
-		return reservaRepository.save(reserva);
-	}
 
 	private void validarFechas(LocalDate inicio, LocalDate fin) {
 
@@ -57,6 +52,20 @@ public class ReservaService {
 		return reservaRepository.findAll();
 	}
 
+	public List<Reserva> obtenerReservasAdmin(Long adminId) {
+		return reservaRepository.obtenerReservasPorAdmin(adminId);
+	}
+
+	public void actualizarReservasEnCurso() {
+		reservaRepository.actualizarReservasEnCurso();
+	}
+
+	public Reserva crearReserva(Reserva reserva) {
+		validarFechas(reserva.getFechaInicio(), reserva.getFechaFin());
+		reserva.setEstado(EstadoReserva.PENDIENTE);
+		return reservaRepository.save(reserva);
+	}
+
 	public Reserva confirmarReserva(Long id) {
 		Reserva reserva = reservaRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
@@ -64,12 +73,20 @@ public class ReservaService {
 		reserva.setEstado(EstadoReserva.CONFIRMADA);
 		return reservaRepository.save(reserva);
 	}
+
+	public Reserva cancelarReserva(Long id) {
+		Reserva reserva = reservaRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
+		reserva.setEstado(EstadoReserva.CANCELADA);
+		return reservaRepository.save(reserva);
+	}
 	
-	public List<Reserva> obtenerReservasAdmin(Long adminId) {
-        return reservaRepository.obtenerReservasPorAdmin(adminId);
-    }
-	
-	public void actualizarReservasEnCurso() {
-        reservaRepository.actualizarReservasEnCurso();
-    }
+	public Reserva finalizarReserva(Long id) {
+		Reserva reserva = reservaRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
+		reserva.setEstado(EstadoReserva.FINALIZADA);
+		return reservaRepository.save(reserva);
+	}
 }
