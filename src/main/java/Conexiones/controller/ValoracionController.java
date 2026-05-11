@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.logging.Logger;
 
+import Conexiones.dto.ValoracionDTO;
 import Conexiones.model.Valoracion;
 import Conexiones.service.ValoracionService;
 
@@ -23,8 +24,8 @@ public class ValoracionController {
 	}
 
 	@PostMapping("/crear")
-	public Valoracion crear(@RequestBody Valoracion valoracion) {
-		log.info("Recibida solicitud de creación de valoración. Usuario ID: " + valoracion.getUsuario().getId() + ", Producto ID: " + valoracion.getProducto().getIdProducto() + ", Puntuación: " + valoracion.getEstrellas() + ", Comentario: " + valoracion.getComentario());
+	public Valoracion crear(@RequestBody ValoracionDTO valoracion) {
+		log.info("Recibida solicitud de creación de valoración. Usuario ID: " + valoracion.getIdUsuario() + ", Producto ID: " + valoracion.getIdProducto() + ", Puntuación: " + valoracion.getEstrellas() + ", Comentario: " + valoracion.getComentario());
 		return valoracionService.crear(valoracion);
 	}
 	
