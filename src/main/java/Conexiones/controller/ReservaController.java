@@ -61,10 +61,10 @@ public class ReservaController {
 		return reservaService.obtenerReservasUsuario(id);
 	}
 
-	@PutMapping("/{id}/estado")
-	public Reserva cambiarEstado(@PathVariable Long id, @RequestParam EstadoReserva estado) {
-		log.info("Recibida solicitud de cambio de estado de reserva ID: " + id + " a estado: " + estado);
-		return reservaService.cambiarEstado(id, estado);
+	@PutMapping("/confirmar/{id}")
+	public Reserva cambiarEstado(@PathVariable Long id) {
+		log.info("Recibida solicitud de cambio de estado de reserva ID: " + id + " a estado: " + EstadoReserva.CONFIRMADA);
+		return reservaService.confirmarReserva(id);
 	}
 
 	@GetMapping("/admin/{adminId}")

@@ -57,11 +57,11 @@ public class ReservaService {
 		return reservaRepository.findAll();
 	}
 
-	public Reserva cambiarEstado(Long id, EstadoReserva estado) {
+	public Reserva confirmarReserva(Long id) {
 		Reserva reserva = reservaRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
 
-		reserva.setEstado(estado);
+		reserva.setEstado(EstadoReserva.CONFIRMADA);
 		return reservaRepository.save(reserva);
 	}
 	
