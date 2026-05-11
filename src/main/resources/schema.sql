@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS valoraciones(
 	id_valoracion BIGINT AUTO_INCREMENT PRIMARY KEY,
     id_producto BIGINT,
     id_usuario BIGINT,
-	comentario VARCHAR(200),
+	comentario TEXT,
     estrellas INT CHECK,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
     FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
