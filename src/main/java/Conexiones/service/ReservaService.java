@@ -87,6 +87,7 @@ public class ReservaService {
 				.orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
 
 		reserva.setEstado(EstadoReserva.FINALIZADA);
+		reserva.setFechaFin(LocalDate.now());
 		return reservaRepository.save(reserva);
 	}
 }
