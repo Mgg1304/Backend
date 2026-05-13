@@ -22,6 +22,7 @@ public class ReservaScheduler {
 	public void actualizarReservasEnCurso() {
 
 		reservaService.actualizarReservasEnCurso();
-		log.info("Scheduler ejecutado: Reservas en curso actualizadas.");
+		reservaService.finalizarReservasVencidas();
+		log.info("Scheduler ejecutado: Reservas en curso actualizadas y reservas vencidas finalizadas.");
 	}
 }

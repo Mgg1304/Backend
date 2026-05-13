@@ -35,4 +35,15 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 	    AND r.estado = 'CONFIRMADA'
 	""")
 	void actualizarReservasEnCurso();
+
+	@Modifying
+	@Transactional
+	@Query("""
+	    UPDATE Reserva r
+	    SET r.estado = 'FINALIZADA',
+	        r.fechaFin = CURRENT_DATE
+	    WHERE r.fechaFin <= CURRENT_DATE
+	    AND r.estado = 'EN_CURSO'
+	""")
+	void finalizarReservasVencidas();
 }

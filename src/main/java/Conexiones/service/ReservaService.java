@@ -60,6 +60,10 @@ public class ReservaService {
 		reservaRepository.actualizarReservasEnCurso();
 	}
 
+	public void finalizarReservasVencidas() {
+		reservaRepository.finalizarReservasVencidas();
+	}
+
 	public Reserva crearReserva(Reserva reserva) {
 		validarFechas(reserva.getFechaInicio(), reserva.getFechaFin());
 		reserva.setEstado(EstadoReserva.PENDIENTE);
