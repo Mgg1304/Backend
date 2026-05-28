@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import Conexiones.controller.UsuarioAuthController;
 import Conexiones.dto.ChangePasswordRequest;
 import Conexiones.dto.RegisterRequest;
+import Conexiones.dto.UsuarioResponse;
+import Conexiones.exception.UsuarioNoEncontradoException;
 import Conexiones.model.Usuario;
 import Conexiones.repository.UsuarioRepository;
 
@@ -71,5 +73,16 @@ public class UsuarioService {
 
 		usuario.setContrasenya(encoder.encode(request.getNewPassword()));
 		usuarioRepository.save(usuario);
+	}
+
+	public UsuarioResponse obtenerUsuarioPorId(Long id) {
+		Usuario usuario = usuarioRepository.findById(id)
+				.orElseThrow(() -> new UsuarioNoEncontradoException(id));
+
+		return new UsuarioResponse(
+				usuario.getId(),
+				usuario.getNombre(),
+				usuario.getUsuario()
+		);
 	}
 }

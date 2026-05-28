@@ -2,7 +2,6 @@ package Conexiones.controller;
 
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +9,8 @@ import Conexiones.dto.ChangePasswordRequest;
 import Conexiones.dto.LoginRequest;
 import Conexiones.dto.LoginResponse;
 import Conexiones.dto.RegisterRequest;
+import Conexiones.dto.UsuarioResponse;
 import Conexiones.model.Usuario;
-import Conexiones.repository.UsuarioRepository;
 import Conexiones.service.UsuarioService;
 
 @RestController
@@ -21,9 +20,6 @@ public class UsuarioAuthController {
 	private static final Logger log = Logger.getLogger(UsuarioAuthController.class.getName());
 
 	private final UsuarioService usuarioService;
-	
-	@Autowired
-	private UsuarioRepository usuarioRepository;
 
 	public UsuarioAuthController(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
@@ -70,7 +66,8 @@ public class UsuarioAuthController {
 	}
 	
 	@GetMapping("/{id}")
-	public Usuario obtenerProducto(@PathVariable Long id) {
-	    return usuarioRepository.findById(id).orElse(null);
+	public ResponseEntity<UsuarioResponse> obtenerUsuarioPorId(@PathVariable Long id) {
+		log.info("Consulta usuario por id: " + id);
+		return ResponseEntity.ok(usuarioService.obtenerUsuarioPorId(id));
 	}
 }

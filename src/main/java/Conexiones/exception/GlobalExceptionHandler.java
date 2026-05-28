@@ -11,5 +11,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> manejarReservaInvalida(ReservaInvalidaException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
+
+    @ExceptionHandler(UsuarioNoEncontradoException.class)
+    public ResponseEntity<String> manejarUsuarioNoEncontrado(UsuarioNoEncontradoException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
 }
 
