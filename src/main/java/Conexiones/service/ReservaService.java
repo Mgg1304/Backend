@@ -82,6 +82,8 @@ public class ReservaService {
 		for (Reserva reserva : reservasVencidas) {
 			Producto producto = reserva.getProducto();
 			producto.setStock(producto.getStock() + 1);
+			productoRepository.save(producto);
+			reserva.setProducto(producto);
 			reserva.setEstado(EstadoReserva.FINALIZADA);
 		}
 
@@ -141,8 +143,10 @@ public class ReservaService {
 		}
 
 		producto.setStock(producto.getStock() - 1);
+		productoRepository.save(producto);
 
 		reserva.setEstado(EstadoReserva.CONFIRMADA);
+		reserva.setProducto(producto);
 		return reservaRepository.save(reserva);
 	}
 
@@ -158,6 +162,8 @@ public class ReservaService {
 		if (reserva.getEstado() == EstadoReserva.CONFIRMADA || reserva.getEstado() == EstadoReserva.EN_CURSO) {
 			Producto producto = reserva.getProducto();
 			producto.setStock(producto.getStock() + 1);
+			productoRepository.save(producto);
+			reserva.setProducto(producto);
 		}
 
 		reserva.setEstado(EstadoReserva.CANCELADA);
@@ -175,6 +181,8 @@ public class ReservaService {
 
 		Producto producto = reserva.getProducto();
 		producto.setStock(producto.getStock() + 1);
+		productoRepository.save(producto);
+		reserva.setProducto(producto);
 
 		reserva.setEstado(EstadoReserva.FINALIZADA);
 		reserva.setFechaFin(LocalDate.now());
